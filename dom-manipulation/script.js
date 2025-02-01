@@ -40,5 +40,3 @@ document.getElementById("addQuote").addEventListener("click", createAddQuoteForm
 
 // Display a random quote on page load
 showRandomQuote();
-
-

@@ -113,12 +113,18 @@ let quotes = [
     }
     }
     
-    // Load quotes from local storage on page load
-    document.addEventListener("DOMContentLoaded", function() {
+    // Function to sync quotes with local storage
+    function syncQuotes() {
     const storedQuotes = localStorage.getItem("quotes");
     if (storedQuotes) {
     quotes = JSON.parse(storedQuotes);
+    filterQuotes();
     }
+    }
+    
+    // Load quotes from local storage on page load
+    document.addEventListener("DOMContentLoaded", function() {
+    syncQuotes();
     populateCategories();
     const lastFilter = localStorage.getItem("lastFilter");
     if (lastFilter) {
@@ -130,3 +136,8 @@ let quotes = [
     });
     
     // Add event listeners
+    document.getElementById("newQuote").addEventListener("click", showRandomQuote);
+    document.getElementById("addQuote").addEventListener("click", createAddQuoteForm);
+    document.getElementById("exportQuotes").addEventListener("click", exportQuotes);
+    document.getElementById("fileInput").addEventListener("change", readQuotesFile);
+    document.getElementById("fetchQuotes").addEventListener("click", fetchQuotesFromServer);

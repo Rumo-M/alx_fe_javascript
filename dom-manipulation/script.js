@@ -37,3 +37,20 @@ function exportQuotes() {
     a.download = "quotes.json";
     a.click();
 }
+
+// Add an event listener to the file input
+document.getElementById("fileInput").addEventListener("change", readQuotesFile);
+
+// Function to read quotes from a file
+function readQuotesFile(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const fileContent = event.target.result;
+        const quotesFromFile = JSON.parse(fileContent);
+        quotes = quotesFromFile;
+        localStorage.setItem("quotes", JSON.stringify(quotes));
+        showRandomQuote();
+    };
+    reader.readAsText(file);
+}

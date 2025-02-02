@@ -122,6 +122,13 @@ let quotes = [
     }
     }
     
+    // Function to update quotes at regular intervals
+    function updateQuotesRegularly() {
+    setInterval(async function() {
+    await fetchQuotesFromServer();
+    }, 60000); // Update quotes every 60 seconds
+    }
+    
     // Load quotes from local storage on page load
     document.addEventListener("DOMContentLoaded", function() {
     syncQuotes();
@@ -133,11 +140,9 @@ let quotes = [
     }
     showRandomQuote();
     createAddQuoteForm();
+    updateQuotesRegularly();
     });
     
     // Add event listeners
     document.getElementById("newQuote").addEventListener("click", showRandomQuote);
-    document.getElementById("addQuote").addEventListener("click", createAddQuoteForm);
-    document.getElementById("exportQuotes").addEventListener("click", exportQuotes);
-    document.getElementById("fileInput").addEventListener("change", readQuotesFile);
-    document.getElementById("fetchQuotes").addEventListener("click", fetchQuotesFromServer);
+    document.getElementById("addQuote").addEventListener("click", createAddQuoteForm

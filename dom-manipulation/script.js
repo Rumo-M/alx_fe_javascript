@@ -5,6 +5,17 @@ let quotes = [
     // ...
 ];
 
+// Function to show a random quote
+function showRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const randomQuote = quotes[randomIndex];
+    const quoteDisplay = document.getElementById("quoteDisplay");
+    quoteDisplay.innerHTML = "";
+    const p = document.createElement("p");
+    p.textContent = randomQuote.text;
+    quoteDisplay.appendChild(p);
+}
+
 // Function to populate categories dynamically
 function populateCategories() {
     const categoryFilter = document.getElementById("categoryFilter");
@@ -68,4 +79,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("categoryFilter").value = lastFilter;
         filterQuotes();
     }
+    showRandomQuote();
 });
+
+// Add event listener to the "New Quote" button
+document.getElementById("newQuote").addEventListener("click", showRandomQuote);

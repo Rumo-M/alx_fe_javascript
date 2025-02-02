@@ -6,7 +6,7 @@ let quotes = [
 ];
 
 // Function to show a random quote
-function showRandomQuote() {
+async function showRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
     const quoteDisplay = document.getElementById("quoteDisplay");
@@ -97,15 +97,16 @@ function readQuotesFile(event) {
 }
 
 // Function to fetch quotes from server
-function fetchQuotesFromServer() {
-    fetch('https://example.com/quotes')
-        .then(response => response.json())
-        .then(data => {
-            quotes = data;
-            localStorage.setItem("quotes", JSON.stringify(quotes));
-            filterQuotes();
-        })
-        .catch(error => console.error('Error:', error));
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+        const data = await response.json();
+        quotes = data;
+        localStorage.setItem("quotes", JSON.stringify(quotes));
+        filterQuotes();
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }
 
 // Load quotes from local storage on page load
@@ -129,4 +130,4 @@ document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 document.getElementById("addQuote").addEventListener("click", createAddQuoteForm);
 document.getElementById("exportQuotes").addEventListener("click", exportQuotes);
 document.getElementById("fileInput").addEventListener("change", readQuotesFile);
-document.getElementById("fetchQuotes").addEventListener("click", fetchQuotesFromServer);
+document.getElementById("fetchQuotes").addEventListener("click", fetchQuotesFromServer

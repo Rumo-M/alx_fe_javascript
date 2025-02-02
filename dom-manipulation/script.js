@@ -96,6 +96,18 @@ function readQuotesFile(event) {
     reader.readAsText(file);
 }
 
+// Function to fetch quotes from server
+function fetchQuotesFromServer() {
+    fetch('https://example.com/quotes')
+        .then(response => response.json())
+        .then(data => {
+            quotes = data;
+            localStorage.setItem("quotes", JSON.stringify(quotes));
+            filterQuotes();
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 // Load quotes from local storage on page load
 document.addEventListener("DOMContentLoaded", function() {
     const storedQuotes = localStorage.getItem("quotes");
@@ -117,3 +129,4 @@ document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 document.getElementById("addQuote").addEventListener("click", createAddQuoteForm);
 document.getElementById("exportQuotes").addEventListener("click", exportQuotes);
 document.getElementById("fileInput").addEventListener("change", readQuotesFile);
+document.getElementById("fetchQuotes").addEventListener("click", fetchQuotesFromServer);

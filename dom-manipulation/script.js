@@ -52,19 +52,48 @@ function addQuote() {
         const newQuote = { text: newQuoteText, category: newQuoteCategory };
         quotes.push(newQuote);
         // Update the categories dropdown if a new category is introduced
-        const categoryFilter = document.getElementById("categoryFilter");
-        categoryFilter.innerHTML = "<option value='all'>All Categories</option>";
-        const uniqueCategories = [...new Set(quotes.map(quote => quote.category))];
-        uniqueCategories.forEach(category => {
-            const option = document.createElement("option");
-            option.value = category;
-            option.text = category;
-            categoryFilter.appendChild(option);
-        });
+        populateCategories();
         // Save the updated quotes array in local storage
         localStorage.setItem("quotes", JSON.stringify(quotes));
         filterQuotes();
     }
+}
+
+// Function to create the add quote form
+function createAddQuoteForm() {
+    const addQuoteForm = document.getElementById("addQuoteForm");
+    addQuoteForm.innerHTML = `
+        <label for="newQuoteText">Quote:</label>
+        <input type="text" id="newQuoteText" name="newQuoteText"><br><br>
+        <label for="newQuoteCategory">Category:</label>
+        <input type="text" id="newQuoteCategory" name="newQuoteCategory"><br><br>
+        <button onclick="addQuote()">Add Quote</button>
+    `;
+}
+
+// Function to export quotes as a JSON file
+function exportQuotes() {
+    const quotesJSON = JSON.stringify(quotes);
+    const blob = new Blob([quotesJSON], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "quotes.json";
+    a.click();
+}
+
+// Function to read quotes from a file
+function readQuotesFile(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const fileContent = event.target.result;
+        const quotesFromFile = JSON.parse(fileContent);
+        quotes = quotesFromFile;
+        localStorage.setItem("quotes", JSON.stringify(quotes));
+        filterQuotes();
+    };
+    reader.readAsText(file);
 }
 
 // Load quotes from local storage on page load
@@ -80,7 +109,11 @@ document.addEventListener("DOMContentLoaded", function() {
         filterQuotes();
     }
     showRandomQuote();
+    createAddQuoteForm();
 });
 
-// Add event listener to the "New Quote" button
+// Add event listeners
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
+document.getElementById("addQuote").addEventListener("click", createAddQuoteForm);
+document.getElementById("exportQuotes").addEventListener("click", exportQuotes);
+document.getElementById("fileInput").addEventListener("change", readQuotesFile);

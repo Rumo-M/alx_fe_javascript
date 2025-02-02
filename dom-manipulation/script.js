@@ -108,6 +108,7 @@ let quotes = [
     quotes = data;
     localStorage.setItem("quotes", JSON.stringify(quotes));
     filterQuotes();
+    alert("Quotes synced with server!");
     } catch (error) {
     console.error("Error:", error);
     }
@@ -145,4 +146,4 @@ let quotes = [
     
     // Add event listeners
     document.getElementById("newQuote").addEventListener("click", showRandomQuote);
-    document.getElementById("addQuote").addEventListener("click", createAddQuoteForm
+    document.getElementById("addQuote").addEventListener
